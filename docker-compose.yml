@@ -1,0 +1,82 @@
+version: '2.4'
+services: 
+  rabbitmq:
+    image: 'rabbitmq:3.8.14-management-alpine'
+    restart: always
+    ports: 
+      - "15672:15672"
+   
+     
+
+  redis-server:
+    image: 'redis:latest'
+    restart: always
+
+
+
+  server:
+    build: ./server
+    restart: always
+    ports: 
+      - "8080:8080"
+      - "9090:9090"
+    
+
+  worker:
+    build: ./worker
+    restart: always
+    pids_limit: 50
+    #cpus: 0.5
+    scale : 3
+    init: true
+    # cpus: "1"
+    mem_limit: 150M  
+
+  # worker02:
+  #   build: ./worker
+  #   restart: always
+  #   pids_limit: 60
+
+  #   # cpus: "1"
+  #   # mem_limit: 150m
+   
+  # worker03:
+  #   build: ./worker
+  #   restart: always
+  #   pids_limit: 60
+
+  #   # cpus: "1"
+  #   # mem_limit: 150m
+  
+
+    
+  # worker04:
+  #   build: ./worker
+  #   restart: always
+  #   # cpus: "1"
+  #   # mem_limit: 150m
+
+  # worker05:
+  #   build: ./worker
+  #   restart: always
+  #   # cpus: "1"
+  #   # mem_limit: 150m
+
+  # worker06:
+  #   build: ./worker
+  #   restart: always
+  #   # cpus: "1"
+  #   # mem_limit: 150m
+
+ 
+
+
+
+    #  deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.50'
+    #       memory: 50M
+    #     reservations:
+    #       cpus: '0.25'
+    #       memory: 20M

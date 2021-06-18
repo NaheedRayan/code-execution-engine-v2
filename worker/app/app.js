@@ -32,14 +32,14 @@ function runCode(json_msg, channel, msg) {
     // writing the input.txt file
     fs.writeFile("./temp/input.txt", json_msg.stdin.toString(), function (err1) {
         if (err1){
-            console.log("in err1")
+            console.log("in err1\n")
             console.log(err1)
             deletingTempFiles()
         }else {
             // writing the source file
             fs.writeFile("./temp/" + json_msg.filename + "." + extensions[json_msg.lang], json_msg.src, function (err2) {
                 if (err2){
-                    console.log("in err2")
+                    console.log("in err2\n")
                     console.log(err2)
                     deletingTempFiles()
                 }
@@ -63,13 +63,10 @@ function runCode(json_msg, channel, msg) {
                             // for showing file size
                             let stats = fs.statSync("./temp/output.txt")
                             let fileSizeInBytes = stats.size;
-                            // Convert the file size to megabytes (optional)
                             let fileSizeInMegabytes = fileSizeInBytes / (1024*1024);
-                            console.log(`-------------------filesize: ${fileSizeInBytes} bytes------------------`)
-                            console.log(`-------------------filesize: ${fileSizeInMegabytes} mb-----------------`)
+                           
+                            let received_obj = JSON.parse(stdout)//parsing json from run.py
 
-                            // console.log(stdout);
-                            // console.log(stderr);
                             fs.readFile("./temp/output.txt", "utf8", function (err4, contents) {
 
                                 if (err4)
@@ -78,14 +75,28 @@ function runCode(json_msg, channel, msg) {
                                     
                                     let result = {
                                         'output': contents,
-                                        'status':stdout,
+                                        'status':received_obj.status,
                                         'stderr':stderr,
-                                        'submission_id': json_msg.filename
+                                        'submission_id': json_msg.filename,
+                                        'error_message':received_obj.error_message,
+                                        'time':received_obj.time
                                     }
+
+                                    let logging = {
+                                        // 'output': contents,
+                                        'status':received_obj.status,
+                                        'stderr':stderr,
+                                        'submission_id': json_msg.filename,
+                                        'time':received_obj.time,
+                                        'output_file_size_b':fileSizeInBytes,
+                                        'output_file_size_mb':fileSizeInMegabytes,
+                                        'error_message':received_obj.error_message,
+                                    }
+                                    console.log(logging);//logging the result for debugging
 
                                     contents = null;
 
-                                    // console.log(result);
+                                    
                                     client.setex(json_msg.filename.toString(), 300, JSON.stringify(result));
 
                                     console.log('message acknowledged')

@@ -61,7 +61,7 @@ If its running on localhost then ping the server using
     
     we will get a response like
 
-        http://localhost:900/results/Test646d62525e1b09171058
+        http://localhost:9090/results/Test646d62525e1b09171058
 
 
     Run this response in postman or browser
@@ -114,6 +114,10 @@ Run this response in postman or browser
 ```stderr``` error in code
 
 ```submission_id``` the unique submission id
+
+```error_message``` the error message
+```time``` time taken to run the script
+
 
 <br>
 <br>

@@ -23,7 +23,11 @@ const cors = require('cors');
 const {
     fdatasync
 } = require('fs');
-app.use(cors())
+app.use(cors({
+    origin:"*",
+    preflightContinue:false ,
+    maxAge:"86400"
+}))
 
 // middleware
 app.use(express.json());

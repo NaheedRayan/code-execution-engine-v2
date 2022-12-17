@@ -89,6 +89,16 @@ if(status):
             output = subprocess.run(f"cd temp/ && timeout -s KILL 5 python3 {filename}.{extension}"  ,shell=True , stdout=subprocess.PIPE, stderr=subprocess.PIPE ,  input=(inputfile.stdout.decode()).encode() , timeout=int(timeout))
             result = output.stdout.decode()
 
+        elif(extension == "js"):
+            begin_time = datetime.today().timestamp() # getting initial
+            output = subprocess.run(f"cd temp/ && timeout -s KILL 5 node {filename}.{extension}"  ,shell=True , stdout=subprocess.PIPE, stderr=subprocess.PIPE ,  input=(inputfile.stdout.decode()).encode() , timeout=int(timeout))
+            result = output.stdout.decode()
+
+        elif(extension == "dart"):
+            begin_time = datetime.today().timestamp() # getting initial
+            output = subprocess.run(f"cd temp/ && timeout -s KILL 5 dart {filename}.{extension}"  ,shell=True , stdout=subprocess.PIPE, stderr=subprocess.PIPE ,  input=(inputfile.stdout.decode()).encode() , timeout=int(timeout))
+            result = output.stdout.decode() 
+
         elif(extension=="cpp" or extension == "c"):
             begin_time = datetime.today().timestamp() # getting initial
             output = subprocess.run(f"cd temp/ && timeout -s KILL 5 ./{filename}"  ,shell=True , stdout=subprocess.PIPE,stderr=subprocess.PIPE , input=(inputfile.stdout.decode()).encode() , timeout=int(timeout))

@@ -16,7 +16,9 @@ const extensions = {
     "c": "c",
     "java": "java",
     "python3": "py",
-    "openJDK-8":"java"
+    "openJDK-8":"java",
+    "javascript":"js",
+    "dart":"dart"
 };
 
 
